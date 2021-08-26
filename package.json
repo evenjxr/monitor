@@ -1,0 +1,32 @@
+{
+  "name": "monitor",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "source": "src/index.ts",
+  "exports": "./dist/Monitor.modern.js",
+  "main": "./dist/Monitor.sdk.js",
+  "module": "./dist/Monitor.module.js",
+  "unpkg": "./dist/Monitor.umd.js",
+  "types": "./tmp/index.d.ts",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "api": "api-extractor run",
+    "example": "parcel ./example/*.html",
+    "api:doc": "typedoc --out docs/ src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rrweb": "^1.0.2",
+    "web-vitals": "^2.1.0"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.18.4",
+    "microbundle": "^0.13.3",
+    "parcel-bundler": "^1.12.5",
+    "typedoc": "^0.21.5",
+    "typescript": "^4.3.5"
+  }
+}
