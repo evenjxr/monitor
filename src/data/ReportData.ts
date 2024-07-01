@@ -1,42 +1,44 @@
-import { Askpriority, IReportData, ITrackerOptions } from "../typings/types";
-import { W, WN } from "./constants";
+/** @format */
 
-class ReportData implements IReportData {
-  private logUrl: string;
-  constructor(options: ITrackerOptions) {
-    const { logUrl } = options;
-    this.logUrl = logUrl;
-  }
+import { IReportData, sendDataType } from "../typings/types"
+import { W, WN } from "./constants"
 
-  sendToAnalytics(level: Askpriority, body: object, uri?: string) {
-    let logurl = this.logUrl;
-    let query: string = JSON.stringify(body);
-    if (uri) logurl = uri;
-    if (level === Askpriority.URGENT) {
-      if (!!W.fetch) {
-        fetch(logurl, { body: query, method: "POST", keepalive: true });
-      } else {
-        let xhr: XMLHttpRequest | null = new XMLHttpRequest();
-        xhr.open("post", logurl, true);
-        // 设置请求头
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(query);
-        xhr.onload = function (e) {
-          xhr = null;
-        };
+type Tparams = {
+  postUrl: string
+  postType: sendDataType
+}
+
+export default function ({ postUrl, postType }: Tparams): IReportData {
+  let report: (body: any, url: string) => void
+  if (postType === sendDataType.fetch) {
+    report = function (body, url) {
+      return fetch(url, { body, method: "POST", keepalive: true })
+    }
+  } else if (postType === sendDataType.xhr) {
+    report = function (body, url) {
+      let xhr: XMLHttpRequest | null = new XMLHttpRequest()
+      xhr.open("post", url, true)
+      xhr.setRequestHeader("Content-Type", "application/json")
+      xhr.send(body)
+      xhr.onload = function (e) {
+        xhr = null
       }
-    } else if (level === Askpriority.IDLE) {
-      if (!!WN.sendBeacon) {
-        navigator.sendBeacon(logurl, query);
-      } else {
-        let img: HTMLImageElement | null = new Image();
-        img.src = `${logurl}?body=${query}`;
-        img.onload = function () {
-          img = null;
-        };
+    }
+  } else if (postType === sendDataType.beacon) {
+    report = function (body, url) {
+      return navigator.sendBeacon(url, body)
+    }
+  } else if (postType === sendDataType.imageLoad) {
+    report = function (body, url) {
+      let img: HTMLImageElement | null = new Image()
+      img.src = `${url}?body=${JSON.stringify(body)}`
+      img.onload = function () {
+        img = null
       }
     }
   }
+  return function (data, path) {
+    let query: string = JSON.stringify(data)
+    report(query, path || postUrl)
+  }
 }
-
-export default ReportData;

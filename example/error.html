@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./performance/index.js"></script>
+    <script src="./performance/error.js"></script>
+    <!-- ========== js报错 -->
+    <script>
+      console.log(aaa)
+    </script>
+     <script src="http://172.29.132.199:8080/error.js?a=123" crossorigin="anonymous"></script>
+    <!-- ========== unhandledrejection 报错 -->
+    <script>
+      new Promise(function(resolve, reject) {
+        reject(123123)
+      })
+      new Promise(function(resolve, reject) {
+        reject(new Error('哈哈哈'))
+      })
+    </script>    
+  </head>
+  <body>
+    <h1>标题演示</h1>
+    <article elementtiming="contentful-element1">
+      sdifsdfisidfjsidjfisodfsdf
+    </article>
+    <input type="text" name="name" id="" />
+    <!-- ========== 加载错误 -->
+    <!-- <link rel="stylesheet" href="https://www.baidu.com/sadfas/a.css">
+    <img src="https://www.baidu.com/sadfas.js" alt=""> -->
+    <address elementtiming="contentful-element3">12312312323</address>
+     <!-- ========== iframe错误 -->
+    <!-- <iframe src="./errorifame.html"  frameborder="1" crossorigin="anonymous"></iframe> -->
+    <!-- <iframe src="http://172.29.132.199:8080/error.html"  frameborder="1" crossorigin="anonymous"></iframe> -->
+  </body>
+</html>

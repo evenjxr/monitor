@@ -17,7 +17,28 @@
       src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn13%2F437%2Fw640h597%2F20180405%2F9b2a-fysuuya8259946.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1631428808&t=8aef28be74cd520e23011534f96e8c10"
       alt=""
     />
+    <!-- <script src="http://172.29.132.199:8080/error.js?a=123" crossorigin="anonymous"></script>
+    <script>
+      console.log(fff)
+    </script> -->
+    <script>
+      new Promise(function(resolve, reject) {
+        reject(123123)
+      })
+      new Promise(function(resolve, reject) {
+        reject(new Error('哈哈哈'))
+      }) 
+    </script>
+    <!-- <img src="https://www.baidu.com/sadfas.png" alt=""> -->
     <address elementtiming="contentful-element3">12312312323</address>
-    <script src="./performance/index.js"></script>
+    <!-- <script type="module" src="./performance/index.js"></script> -->
+    <!-- <script>
+      function perf_observer(list, observer) { 
+        window.list = list
+        console.log(1111111, list, list.getEntries())
+      } 
+    var observer2 = new PerformanceObserver(perf_observer); 
+      observer2.observe({type: "largest-contentful-paint"});
+    </script> -->
   </body>
 </html>

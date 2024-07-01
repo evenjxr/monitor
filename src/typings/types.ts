@@ -52,34 +52,50 @@ export interface IAnalyticsTrackerOptions {
   // customProperties?: object;
   vitalsScorce: IVitalsScore; // 分数
 }
+
+export type ErrorTypes = [
+  "consoleError",
+  "unhandledrejection",
+  "networkError",
+  "iframeError",
+  "globalError",
+  "other"
+]
+
+export type PartialErrorTypes = Partial<Record<ErrorTypes[number], true>>
+
+export interface IerrorConfig {
+  autoReport: boolean
+  type: (keyof PartialErrorTypes)[]
+  cache: boolean
+  cacheMaxLength: number
+}
+
 // 用户初始化参数
 export interface IMonitorOptions {
-  resourceTiming: boolean;
-  elementTiming: boolean;
-  analyticsTracker?: (options: IAnalyticsTrackerOptions) => void;
-  maxTime: number;
-  logUrl?: string;
-  captureError?: boolean;
+  postUrl: string
+  postType: sendDataType
+  error: IerrorConfig
+  // resourceTiming: boolean;
+  // elementTiming: boolean;
+  // analyticsTracker?: (options: IAnalyticsTrackerOptions) => void;
+  // maxTime: number;
+  // logUrl?: string;
+  // captureError?: boolean;
 }
 
-export interface IReportData {
-  sendToAnalytics(level: Askpriority, body: object): void;
-}
+export type IReportData = (body: object, url?: string) => void
 
 export interface IMonitorConfig {
-  isResourceTiming: boolean;
-  isElementTiming: boolean;
-  reportData: IReportData;
-  analyticsTracker: (options: IAnalyticsTrackerOptions) => void;
-  maxTime: number;
+  isResourceTiming: boolean
+  isElementTiming: boolean
+  reportData: IReportData
+  analyticsTracker: (options: IAnalyticsTrackerOptions) => void
+  maxTime: number
 }
 
 export interface IperfObservers {
-  [measureName: string]: any;
-}
-
-export interface ITrackerOptions {
-  logUrl: string;
+  [measureName: string]: any
 }
 
 // 约束可以被订阅的性能指标
@@ -92,7 +108,7 @@ export type IPerformanceObserverType =
   | "navigation"
   | "paint"
   | "element"
-  | "resource";
+  | "resource"
 
 export type IPerformanceEntryInitiatorType =
   | "beacon"
@@ -101,35 +117,42 @@ export type IPerformanceEntryInitiatorType =
   | "img"
   | "other"
   | "script"
-  | "xmlhttprequest";
+  | "xmlhttprequest"
 
 // 通过订阅回调 得到的具体的性能参数信息
 export declare interface IPerformanceEntry {
-  processingStart: number;
-  decodedBodySize?: number;
-  duration: number;
-  entryType: IPerformanceObserverType;
-  initiatorType?: IPerformanceEntryInitiatorType;
-  loadTime: number;
-  name: string;
-  renderTime: number;
-  startTime: number;
-  hadRecentInput?: boolean;
-  value?: number;
-  identifier?: string;
+  processingStart: number
+  decodedBodySize?: number
+  duration: number
+  entryType: IPerformanceObserverType
+  initiatorType?: IPerformanceEntryInitiatorType
+  loadTime: number
+  name: string
+  renderTime: number
+  startTime: number
+  hadRecentInput?: boolean
+  value?: number
+  identifier?: string
 }
 
 // 度量指标数据
 export interface IMetricMap {
-  [measureName: string]: boolean;
+  [measureName: string]: boolean
 }
 
 export interface PerformanceEventTiming extends PerformanceEntry {
-  processingStart: DOMHighResTimeStamp;
-  target?: Node;
+  processingStart: DOMHighResTimeStamp
+  target?: Node
 }
 
 export enum Askpriority {
   URGENT = 1,
   IDLE = 2
+}
+
+export enum sendDataType {
+  beacon = "beacon",
+  imageLoad = "imageLoad",
+  fetch = "fetch",
+  xhr = "xhr"
 }
