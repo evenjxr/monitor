@@ -1,5 +1,8 @@
 
 export default {
+  project: 'demo',
+  version: '1.0.0',
+  isPro: true,
   postUrl: '',
   postType: 'fetch',
   error: {
@@ -9,21 +12,11 @@ export default {
     cacheMaxLength: 10,
   },
   performance: {
-    sample: 0.5,
+    sample: 1,
     autoReport: true,
-    sensoryIndex: true,
-    quota: [],
-    // disableSensoryImageIndex: true,
-    // interactToStopObserver: true,
-    // noCheckOuterMutaCount: false,
-    // fstPerfSample: 0.5,
-    // fstPerfAnalysis: false,
-    // logSlowView: false,
-    // delay: 0,
-    // logFirstScreen: false,
-    // ignoreIframe: true,
-    // mainResourceNumber: 5,
-    // timeThreshold: 5
-  }
+    isKeepOriginData: true,
+    networkInfo: true,
+  },
+  storageInfo: true,
 }
 

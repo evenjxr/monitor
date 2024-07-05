@@ -1,7 +1,6 @@
 /** @format */
 
 import { IReportData, sendDataType } from "../typings/types"
-import { W, WN } from "./constants"
 
 type Tparams = {
   postUrl: string
@@ -12,7 +11,11 @@ export default function ({ postUrl, postType }: Tparams): IReportData {
   let report: (body: any, url: string) => void
   if (postType === sendDataType.fetch) {
     report = function (body, url) {
-      return fetch(url, { body, method: "POST", keepalive: true })
+      return fetch(url, {
+        body: JSON.stringify(body),
+        method: "POST",
+        keepalive: true
+      })
     }
   } else if (postType === sendDataType.xhr) {
     report = function (body, url) {
@@ -38,7 +41,7 @@ export default function ({ postUrl, postType }: Tparams): IReportData {
     }
   }
   return function (data, path) {
-    let query: string = JSON.stringify(data)
-    report(query, path || postUrl)
+    // let query: string = JSON.stringify(data)
+    report(data, path || postUrl)
   }
 }

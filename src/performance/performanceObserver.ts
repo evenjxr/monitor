@@ -22,7 +22,8 @@ export const po = (
   }
   return null;
 };
+
 export const poDisconnect = (observer: string) => {
-  if (perfObservers[observer]) perfObservers[observer].disconnect();
-  delete perfObservers[observer];
-};
+  if (perfObservers[observer]) perfObservers[observer].disconnect()
+  delete perfObservers[observer]
+}

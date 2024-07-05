@@ -8,7 +8,7 @@ import {
   initFirstInputDelay,
   initResourceTiming,
   initTotalBlockingTime
-} from "./paint";
+} from "./quotaCallback"
 import { po, poDisconnect } from "./performanceObserver";
 
 export const initPerformanceObserver = (): void => {

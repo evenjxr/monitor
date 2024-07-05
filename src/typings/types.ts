@@ -71,6 +71,12 @@ export interface IerrorConfig {
   cacheMaxLength: number
 }
 
+
+export interface IperformanceConfig {
+  sample: number
+  autoReport: true
+}
+
 // 用户初始化参数
 export interface IMonitorOptions {
   postUrl: string
@@ -133,6 +139,7 @@ export declare interface IPerformanceEntry {
   hadRecentInput?: boolean
   value?: number
   identifier?: string
+  element?: HTMLElement
 }
 
 // 度量指标数据

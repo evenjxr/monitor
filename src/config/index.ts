@@ -1,5 +1,6 @@
-import analyticsTracker from "../data/analyticsTracker";
-import ReportData from "../data/reportData"
+/** @format */
+
+import analyticsTracker from "../data/analyticsTracker"
 import defaultConfig from "./default.config"
 import { IMonitorConfig, IMonitorOptions } from "../typings/types"
 
@@ -28,6 +29,21 @@ export default class ConfigManager {
     return {
       postUrl,
       postType
+    }
+  }
+
+  get performanceCofing() {
+    const { performance } = this.config
+    return performance
+  }
+
+  get baseInfo() {
+    const { project, version } = this.config
+
+    return {
+      project,
+      version,
+      pageUrl: location.href
     }
   }
 }

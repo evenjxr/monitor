@@ -19,6 +19,7 @@ type ErrorInfo = {
   lineno?: number
   colno?: number
   stack?: any
+  extraInfo?: any
 }
 
 class ErrorTrace {
@@ -38,12 +39,11 @@ class ErrorTrace {
   detectLeaveReport() {
     const originOnbeforeunload = W?.onbeforeunload
     const originErrorManage = this
-    W.onbeforeunload = function () {
+    W.onbeforeunload = function (...res) {
       if (originErrorManage.cacheError.length > 0) {
         originErrorManage.report(originErrorManage.cacheError)
       }
-      const args = Array.prototype.slice.call(arguments)
-      originOnbeforeunload && originOnbeforeunload.call(W, ...args)
+      originOnbeforeunload && originOnbeforeunload.call(W, ...res)
     }
   }
 
@@ -145,7 +145,10 @@ class ErrorTrace {
       let reason = e.reason
       if (reason) {
         let message = reason.message || reason?.name || "unhandledrejection"
-        let stack = reason.stack || reason.toString() || reason
+        let stack =
+          reason.stack || typeof reason === "object"
+            ? JSON.stringify(reason)
+            : reason
         const err = this.parseError(reason)
         if (err) {
           const { message, stack, scriptURI, lineno, colno } = err
@@ -283,12 +286,40 @@ class ErrorTrace {
     })
   }
 
-  public run(type: (keyof PartialErrorTypes)[]) {
+  private run(type: (keyof PartialErrorTypes)[]) {
     if (type.indexOf("networkError") > -1) this.networkError()
     if (type.indexOf("globalError") > -1) this.eventError()
     if (type.indexOf("unhandledrejection") > -1) this.promiseError()
     if (type.indexOf("iframeError") > -1) this.iframeError()
     if (type.indexOf("consoleError") > -1) this.consoleError()
+  }
+
+  // 对外提供
+  public addError = (err: any, extraInfo?: object) => {
+    const info = this.parseError(err)
+    if (info) {
+      const { message, stack, scriptURI, lineno, colno } = info
+      this.handleErrorItem({
+        category: "jsError",
+        secCategory: "eventError",
+        level: "error",
+        message,
+        stack,
+        scriptURI,
+        lineno,
+        colno,
+        extraInfo
+      })
+    } else {
+      this.handleErrorItem({
+        category: "jsError",
+        secCategory: "eventError",
+        level: "error",
+        message: "未知错误",
+        stack: JSON.stringify(err),
+        extraInfo
+      })
+    }
   }
 }
 
