@@ -3,7 +3,7 @@
 import ConfigManager from "./config"
 import { isPerformanceSupported } from "./tools/isSupported"
 import { W, WN } from "./data/constants"
-import reportData from "./data/reportApi"
+import reportData, { Tparams } from "./data/reportApi"
 import ErrorTrace from "./error"
 import { IMonitorOptions, IReportData } from "./typings/types"
 import PerformanceQuotaCollect from "./performance"
@@ -62,8 +62,9 @@ export default class Monitor {
   }
 
   initError() {
+    if (!this.configManager?.errConfig) return
     this.addError = new ErrorTrace(
-      this.configManager?.errConfig,
+      this.configManager.errConfig,
       this.mergeInfo
     ).addError
   }

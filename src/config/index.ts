@@ -1,8 +1,9 @@
 /** @format */
 
 import analyticsTracker from "../data/analyticsTracker"
-import defaultConfig from "./default.config"
-import { IMonitorConfig, IMonitorOptions } from "../typings/types"
+import defaultConfig, { Tconfig } from "./default.config"
+import { IMonitorConfig, IMonitorOptions, IerrorConfig } from "../typings/types"
+import { Tparams } from "../data/reportApi"
 
 // export const config: IMonitorConfig = {
 //   reportData: new ReportData({
@@ -15,13 +16,17 @@ import { IMonitorConfig, IMonitorOptions } from "../typings/types"
 // };
 
 export default class ConfigManager {
-  config: typeof defaultConfig
+  config: Tconfig
   constructor(options: Partial<IMonitorOptions> = {}) {
-    this.config = Object.assign({}, defaultConfig, options)
+    this.config = Object.assign(
+      {},
+      defaultConfig,
+      options
+    ) as typeof defaultConfig
   }
 
   get errConfig() {
-    return this.config.error
+    return this.config.error as IerrorConfig
   }
 
   get reportCofing() {
@@ -29,7 +34,7 @@ export default class ConfigManager {
     return {
       postUrl,
       postType
-    }
+    } as Tparams
   }
 
   get performanceCofing() {

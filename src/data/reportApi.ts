@@ -2,7 +2,7 @@
 
 import { IReportData, sendDataType } from "../typings/types"
 
-type Tparams = {
+export type Tparams = {
   postUrl: string
   postType: sendDataType
 }

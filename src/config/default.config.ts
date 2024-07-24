@@ -1,5 +1,6 @@
 
-export default {
+
+const config = {
   project: 'demo',
   version: '1.0.0',
   isPro: true,
@@ -19,4 +20,8 @@ export default {
   },
   storageInfo: true,
 }
+
+export type Tconfig = typeof config
+
+export default config
 
